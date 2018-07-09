@@ -4,6 +4,7 @@ from keras.preprocessing.image import *
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten, BatchNormalization
 from keras.layers import Conv2D, MaxPooling2D
+from keras import optimizers
 from time import time
 from keras.callbacks import TensorBoard
 
@@ -18,19 +19,19 @@ model = Sequential()
 model.add(Conv2D(32, (7, 7), input_shape=(233, 233, 3)))
 
 # C1
-model.add(Conv2D(64, (7, 7), input_shape=(227, 227, 32)))
+model.add(Conv2D(64, (7, 7)))
 model.add(BatchNormalization(scale=True))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(3, 3), strides=2))
 
 # C2
-model.add(Conv2D(48, (5, 5), input_shape=(55, 55, 64)))
+model.add(Conv2D(48, (5, 5)))
 model.add(BatchNormalization(scale=True))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(3, 3), strides=2))
 
 # C3
-model.add(Conv2D(64, (3, 3), input_shape=(25, 25, 48)))
+model.add(Conv2D(64, (3, 3)))
 model.add(BatchNormalization(scale=True))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(3, 3), strides=2))
@@ -46,18 +47,19 @@ model.add(Dropout(0.5))
 
 # Output
 model.add(Dense(1))
-model.add(Activation('softmax'))
+model.add(Activation('sigmoid'))
 
 # optimizer
 sgd = optimizers.SGD(lr=0.001)
+adam = optimizers.Adam(lr=1e-5)
 
 # loss function is binary crossentropy (goof for binary classification)
 model.compile(loss='binary_crossentropy',
-              optimizer=sgd,
+              optimizer=adam,
               metrics=['accuracy'])
 
 # prepare for training
-batch_size = 128
+batch_size = 32
 
 train_datagen = ImageDataGenerator()
 test_datagen = ImageDataGenerator()
@@ -81,7 +83,7 @@ tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
 model.fit_generator(
         train_generator,
         steps_per_epoch=2000 // batch_size,
-        epochs=34,
+        epochs=50,
         validation_data=validation_generator,
         validation_steps=800 // batch_size,
         callbacks=[tensorboard])
