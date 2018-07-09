@@ -48,25 +48,28 @@ model.add(Dropout(0.5))
 model.add(Dense(1))
 model.add(Activation('softmax'))
 
+# optimizer
+sgd = optimizers.SGD(lr=0.001)
+
 # loss function is binary crossentropy (goof for binary classification)
 model.compile(loss='binary_crossentropy',
-              optimizer='sgd',
+              optimizer=sgd,
               metrics=['accuracy'])
 
 # prepare for training
-batch_size = 16
+batch_size = 128
 
 train_datagen = ImageDataGenerator()
 test_datagen = ImageDataGenerator()
 
 train_generator = train_datagen.flow_from_directory(
-        'datasets/cnn-train', 
+        'utils/output-data/train', 
         target_size=(233, 233),  # patch size 
         batch_size=batch_size,
         class_mode='binary')  # binary_crossentropy loss
 
 validation_generator = test_datagen.flow_from_directory(
-        'datasets/cnn-valid',
+        'utils/output-data/valid',
         target_size=(233, 233),
         batch_size=batch_size,
         class_mode='binary')
@@ -82,4 +85,4 @@ model.fit_generator(
         validation_data=validation_generator,
         validation_steps=800 // batch_size,
         callbacks=[tensorboard])
-model.save_weights('weights_gi.h5')
+model.save_weights('NIvsCG_model.h5')
