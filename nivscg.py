@@ -6,7 +6,7 @@ from keras.layers import Dense, Dropout, Activation, Flatten, BatchNormalization
 from keras.layers import Conv2D, MaxPooling2D
 from keras import optimizers
 from time import time
-from keras.callbacks import TensorBoard, ReduceLROnPlateau
+from keras.callbacks import TensorBoard, ReduceLROnPlateau, ModelCheckpoint
 
 import os
 
@@ -84,9 +84,10 @@ validation_generator = test_datagen.flow_from_directory(
         batch_size=batch_size,
         class_mode='binary')
 
-# tensorboard and reduce_lr
+# callbacks
 tensorboard = LRTensorBoard(log_dir="logs/{}".format(time()))
-# reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=1e-5)
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=1e-8)
+checkpoint = ModelCheckpoint("checkpoints/weights.{epoch:02d}-{val_loss:.2f}.hdf5", monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=True, mode='auto', period=5)
 
 # load trained model with 250 epochs, remove this line if training from scratch
 model.load_weights('NIvsCG_model_250_epochs.h5')
@@ -94,10 +95,10 @@ model.load_weights('NIvsCG_model_250_epochs.h5')
 # start training
 model.fit_generator(
         train_generator,
-        steps_per_epoch=2000 // batch_size,
+        steps_per_epoch=None,
         epochs=250,
         validation_data=validation_generator,
-        validation_steps=800 // batch_size,
-        callbacks=[tensorboard])
+        validation_steps=None,
+        callbacks=[tensorboard, reduce_lr, checkpoint])
 
-model.save_weights('NIvsCG_model_500_epochs.h5')
+model.save_weights('NIvsCG_model_500_epochs.h5') 
