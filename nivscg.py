@@ -1,14 +1,23 @@
 from __future__ import print_function
 import keras
 from keras.preprocessing.image import *
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import Dense, Dropout, Activation, Flatten, BatchNormalization
 from keras.layers import Conv2D, MaxPooling2D
 from keras import optimizers
 from time import time
-from keras.callbacks import TensorBoard
+from keras.callbacks import TensorBoard, ReduceLROnPlateau
 
 import os
+
+# subclassing TensorBoard to show LR
+class LRTensorBoard(TensorBoard):
+    def __init__(self, log_dir):  
+        super().__init__(log_dir=log_dir)
+
+    def on_epoch_end(self, epoch, logs=None):
+        logs.update({'lr': K.eval(self.model.optimizer.lr)})
+        super().on_epoch_end(epoch, logs)
 
 datagen = ImageDataGenerator()
 
@@ -50,7 +59,6 @@ model.add(Dense(1))
 model.add(Activation('sigmoid'))
 
 # optimizer
-sgd = optimizers.SGD(lr=0.001)
 adam = optimizers.Adam(lr=1e-5)
 
 # loss function is binary crossentropy (goof for binary classification)
@@ -76,15 +84,20 @@ validation_generator = test_datagen.flow_from_directory(
         batch_size=batch_size,
         class_mode='binary')
 
-# tensorboard
-tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
+# tensorboard and reduce_lr
+tensorboard = LRTensorBoard(log_dir="logs/{}".format(time()))
+# reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=1e-5)
+
+# load trained model with 250 epochs, remove this line if training from scratch
+model.load_weights('NIvsCG_model_250_epochs.h5')
 
 # start training
 model.fit_generator(
         train_generator,
         steps_per_epoch=2000 // batch_size,
-        epochs=50,
+        epochs=250,
         validation_data=validation_generator,
         validation_steps=800 // batch_size,
         callbacks=[tensorboard])
-model.save_weights('NIvsCG_model.h5')
+
+model.save_weights('NIvsCG_model_500_epochs.h5')
