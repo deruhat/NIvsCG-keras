@@ -30,3 +30,6 @@ model.compile(loss='binary_crossentropy',
               optimizer=adam,
               metrics=['accuracy'])
 
+# TODO: organize test patch names in txt files for majority voting algorithm
+
+# TODO: implement majority voting algorithm and prediction using the model trained
