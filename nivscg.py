@@ -34,7 +34,7 @@ datagen = ImageDataGenerator()
 model = Sequential()
 
 # convLayer
-model.add(Conv2D(32, (7, 7), input_shape=(233, 233, 3)))
+model.add(Conv2D(32, (7, 7), input_shape=(233, 233, 3), kernel_regularizer=regularizers.l1(0.01)))
 
 # C1
 model.add(Conv2D(64, (7, 7)))
@@ -95,12 +95,11 @@ validation_generator = test_datagen.flow_from_directory(
 
 # callbacks
 tensorboard = LRTensorBoard(log_dir="logs/{}".format(time()))
-# reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=1e-8)
-# checkpoint = ModelCheckpoint("checkpoints/weights.{epoch:02d}-{val_loss:.2f}.hdf5", monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=True, mode='auto', period=5)
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=1e-8)
+checkpoint = ModelCheckpoint("checkpoints/weights.{epoch:02d}-{val_loss:.2f}.hdf5", monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=True, mode='auto', period=5)
 
-# load trained model with 250 epochs, remove this line if training from scratch
-model.load_weights('20_additional_epochs_on_100000_samples.h5')
-model.save('NIvsCG_model.h5')
+# load trained model, remove this line if training from scratch
+model.load_weights('NIvsCG_weights.h5')
 
 # start training
 model.fit_generator(
@@ -109,6 +108,6 @@ model.fit_generator(
         epochs=250,
         validation_data=validation_generator,
         validation_steps=None,
-        callbacks=[tensorboard])
+        callbacks=[tensorboard, reduce_lr, checkpoint])
 
 model.save_weights('NIvsCG_weights.h5') 
