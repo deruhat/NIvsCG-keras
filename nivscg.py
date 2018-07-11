@@ -1,10 +1,19 @@
+##########################################################################
+#                                                                        #
+#    Implementation of Distinguishing Between Natural and Computer-      #
+#        Generated Images Using Convolutional Neural Networks            #
+#                               (NIvsCG)                                 #
+#                             Model Design                               #
+#                                                                        #
+##########################################################################
+
 from __future__ import print_function
 import keras
 from keras.preprocessing.image import *
 from keras.models import Sequential, load_model
 from keras.layers import Dense, Dropout, Activation, Flatten, BatchNormalization
 from keras.layers import Conv2D, MaxPooling2D
-from keras import optimizers
+from keras import optimizers, regularizers
 from time import time
 from keras.callbacks import TensorBoard, ReduceLROnPlateau, ModelCheckpoint
 
@@ -59,9 +68,9 @@ model.add(Dense(1))
 model.add(Activation('sigmoid'))
 
 # optimizer
-adam = optimizers.Adam(lr=1e-5)
+adam = optimizers.Adam(lr=1e-8)
 
-# loss function is binary crossentropy (goof for binary classification)
+# loss function is binary crossentropy (for binary classification)
 model.compile(loss='binary_crossentropy',
               optimizer=adam,
               metrics=['accuracy'])
@@ -86,11 +95,12 @@ validation_generator = test_datagen.flow_from_directory(
 
 # callbacks
 tensorboard = LRTensorBoard(log_dir="logs/{}".format(time()))
-reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=1e-8)
-checkpoint = ModelCheckpoint("checkpoints/weights.{epoch:02d}-{val_loss:.2f}.hdf5", monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=True, mode='auto', period=5)
+# reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=1e-8)
+# checkpoint = ModelCheckpoint("checkpoints/weights.{epoch:02d}-{val_loss:.2f}.hdf5", monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=True, mode='auto', period=5)
 
 # load trained model with 250 epochs, remove this line if training from scratch
-model.load_weights('NIvsCG_model_250_epochs.h5')
+model.load_weights('20_additional_epochs_on_100000_samples.h5')
+model.save('NIvsCG_model.h5')
 
 # start training
 model.fit_generator(
@@ -99,6 +109,6 @@ model.fit_generator(
         epochs=250,
         validation_data=validation_generator,
         validation_steps=None,
-        callbacks=[tensorboard, reduce_lr, checkpoint])
+        callbacks=[tensorboard])
 
-model.save_weights('NIvsCG_model_500_epochs.h5') 
+model.save_weights('NIvsCG_weights.h5') 
