@@ -68,7 +68,7 @@ model.add(Dense(1))
 model.add(Activation('sigmoid'))
 
 # optimizer
-adam = optimizers.Adam(lr=1e-8)
+adam = optimizers.Adam(lr=1e-10)
 
 # loss function is binary crossentropy (for binary classification)
 model.compile(loss='binary_crossentropy',
@@ -95,8 +95,8 @@ validation_generator = test_datagen.flow_from_directory(
 
 # callbacks
 tensorboard = LRTensorBoard(log_dir="logs/{}".format(time()))
-reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=1e-8)
-checkpoint = ModelCheckpoint("checkpoints/weights.{epoch:02d}-{val_loss:.2f}.hdf5", monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=True, mode='auto', period=5)
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=0)
+checkpoint = ModelCheckpoint("checkpoints/weights_regularization_added.{epoch:02d}-{val_loss:.2f}.hdf5", monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=True, mode='auto', period=5)
 
 # load trained model, remove this line if training from scratch
 model.load_weights('NIvsCG_weights.h5')
