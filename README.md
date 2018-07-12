@@ -1,5 +1,5 @@
-# Distinguishing Between Natural and Computer-Generated Images Using Convolutional Neural Networks
-## ( NIvsCG )
+# NIvsCG
+## Distinguishing Between Natural and Computer-Generated Images Using Convolutional Neural Networks
 
 This an on-going project to implement the paper in Keras.
 
