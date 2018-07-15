@@ -47,7 +47,6 @@ i = 0
 print('Classifying patches...')
 for line in patches:
     patch = line.split()
-    i = i + 1
     if i < 200:
         img = Image.open('utils/output-data/test/' + patch[0])
         img = img.resize((233, 233))
@@ -56,6 +55,7 @@ for line in patches:
         arr = arr.reshape((1, 233, 233, 3))
         prediction = model.predict(arr)
         testTmp.append(prediction)
+        i = i + 1
     else:
         oriImageLabel.extend(imageTmp)
         oriTestLabel.extend(testTmp)
