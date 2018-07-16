@@ -91,7 +91,7 @@ print('CG patches misclassified as natural patches (CGmcNI) is:', (len(prcg_resu
 print('natural patches misclassified as CG patches (NImcCG) is:', (len(personal_result) - personal_result.sum())*1.0/len(personal_result))
 print('The average accuracy is:', result.sum()*1.0/len(result))
 
-#  Computing average accuracy on full-sized images (29 patches and majority voting)
+#  Computing average accuracy on full-sized images (200 patches and majority voting)
 result = np.arange(len(imageLabel))
 for x in range(len(imageLabel)):
     tmp = np.array(imageLabelNp[x]) == np.array(testLabelNp[x])
