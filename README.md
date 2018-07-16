@@ -8,7 +8,7 @@
 
 ----------------------------------------
 
-### Model Design:
+### Training the Model:
 The code for the CNN design described by the paper can be found in `nivscg.py`. Image patches used as training and validation data have to be cropped using the MPS algorithm implemented here: https://github.com/weizequan/NIvsCG
 
 ### Majority Voting:
