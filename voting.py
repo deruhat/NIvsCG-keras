@@ -44,7 +44,7 @@ oriTestLabel = []  # one dimension list
 patchesTxt = 'utils/output-data/test/output.txt'
 patches = open(patchesTxt, 'r')
 
-print('Classifying patches...')
+print('[*] Classifying patches...')
 for line in patches:
     patch = line.split()
     if len(patch) == 2:
@@ -65,7 +65,7 @@ for line in patches:
         imageTmp = []
         testTmp = []
 
-print('The number of full-sized testing images is:', len(imageLabel))
+print('[*] The number of full-sized testing images is:', len(imageLabel))
 
 imageCropNum = [len(x) for x in imageLabel]
 imageCropNumNp = np.array(imageCropNum)
@@ -77,31 +77,38 @@ oriTestLabel = np.rint(oriTestLabel)
 
 result = (np.array(oriImageLabel) == np.array(oriTestLabel))
 # wierd = open("weird.txt", "w")
-# wierd.write(np.array2string(np.array(oriTestLabel)))
+# wierd.write(np.array2string(np.array(testLabelNp)))
 
 kPrcgNum = 200  # the number of cg images
 
 personal_result = result[:kPrcgNum*200] # (200 images * 200 patches per image)
 prcg_result = result[kPrcgNum*200:]
-print('The number of patches:', len(oriImageLabel), len(prcg_result), len(personal_result))
-print('The average accuracy on patches:')
-print('The personal (NI) accuracy is:', personal_result.sum()*1.0/len(personal_result))
-print('The prcg (CG) accuracy is:', prcg_result.sum()*1.0/len(prcg_result))
-print('CG patches misclassified as natural patches (CGmcNI) is:', (len(prcg_result) - prcg_result.sum())*1.0/len(prcg_result))
-print('natural patches misclassified as CG patches (NImcCG) is:', (len(personal_result) - personal_result.sum())*1.0/len(personal_result))
-print('The average accuracy is:', result.sum()*1.0/len(result))
+print('\n[*] Patch Accuracy')
+print('    - # of patches:', len(oriImageLabel), len(prcg_result), len(personal_result))
+print('    - Average accuracy on patches:')
+print('    - Personal (NI) accuracy is:', personal_result.sum()*1.0/len(personal_result))
+print('    - PRCG (CG) accuracy is:', prcg_result.sum()*1.0/len(prcg_result))
+print('    - CG patches misclassified as natural patches (CGmcNI) is:', (len(prcg_result) - prcg_result.sum())*1.0/len(prcg_result))
+print('    - Natural patches misclassified as CG patches (NImcCG) is:', (len(personal_result) - personal_result.sum())*1.0/len(personal_result))
+print('    - Average accuracy is:', result.sum()*1.0/len(result))
 
 #  Computing average accuracy on full-sized images (200 patches and majority voting)
 result = np.arange(len(imageLabel))
+# print(imageLabelNp)
+# print(testLabelNp)
+
+testLabelNp = np.rint(testLabelNp)
+
 for x in range(len(imageLabel)):
     tmp = np.array(imageLabelNp[x]) == np.array(testLabelNp[x])
     result[x] = np.sum(tmp[:-1]) > imageCropNumNp[x]//2 - 1
 
 personal_result = result[:kPrcgNum]
 prcg_result = result[kPrcgNum:]
-print('The average accuracy on full-sized images after majority voting: ', len(prcg_result), len(personal_result))
-print('The personal (NI) accuracy is:', personal_result.sum()*1.0/len(personal_result))
-print('The prcg (CG) accuracy is:', prcg_result.sum()*1.0/len(prcg_result))
-print('CG images misclassified as natural images (CGmcNI) is:', (len(prcg_result) - prcg_result.sum())*1.0/len(prcg_result))
-print('natural images misclassified as CG images (NImcCG) is:', (len(personal_result) - personal_result.sum())*1.0/len(personal_result))
-print('The average accuracy is:', result.sum()*1.0/len(result))
+print('\n[*] After Majority Voting (Full-Image Accuracy)')
+print('    - Average accuracy on full-sized images after majority voting: ', len(prcg_result), len(personal_result))
+print('    - Personal (NI) accuracy is:', personal_result.sum()*1.0/len(personal_result))
+print('    - PRCG (CG) accuracy is:', prcg_result.sum()*1.0/len(prcg_result))
+print('    - CG images misclassified as natural images (CGmcNI) is:', (len(prcg_result) - prcg_result.sum())*1.0/len(prcg_result))
+print('    - Natural images misclassified as CG images (NImcCG) is:', (len(personal_result) - personal_result.sum())*1.0/len(personal_result))
+print('    - Average accuracy is:', result.sum()*1.0/len(result))
