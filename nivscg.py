@@ -9,6 +9,7 @@
 
 from __future__ import print_function
 import keras
+from keras import backend as K
 from keras.preprocessing.image import *
 from keras.models import Sequential, load_model
 from keras.layers import Dense, Dropout, Activation, Flatten, BatchNormalization
@@ -64,14 +65,13 @@ model.add(Dense(4096, activation='relu'))
 model.add(Dropout(0.5))
 
 # Output
-model.add(Dense(1))
-model.add(Activation('sigmoid'))
+model.add(Dense(2, activation='softmax'))
 
 # optimizer
-adam = optimizers.Adam(lr=1e-10)
+adam = optimizers.Adam(lr=1e-5)
 
 # loss function is binary crossentropy (for binary classification)
-model.compile(loss='binary_crossentropy',
+model.compile(loss='sparse_categorical_crossentropy',
               optimizer=adam,
               metrics=['accuracy'])
 
@@ -96,18 +96,18 @@ validation_generator = test_datagen.flow_from_directory(
 # callbacks
 tensorboard = LRTensorBoard(log_dir="logs/{}".format(time()))
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=0)
-checkpoint = ModelCheckpoint("checkpoints/weights_regularization_added.{epoch:02d}-{val_loss:.2f}.hdf5", monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=True, mode='auto', period=5)
+checkpoint = ModelCheckpoint("checkpoints/model.{epoch:02d}-{val_loss:.2f}.h5", monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=3)
 
 # load trained model, remove this line if training from scratch
-model.load_weights('NIvsCG_weights.h5')
+model = load_model('model.12-2.07.h5')
 
 # start training
 model.fit_generator(
         train_generator,
-        steps_per_epoch=None,
-        epochs=250,
+        steps_per_epoch=2000,
+        epochs=238,
         validation_data=validation_generator,
-        validation_steps=None,
+        validation_steps=800,
         callbacks=[tensorboard, reduce_lr, checkpoint])
 
-model.save_weights('NIvsCG_weights.h5') 
+model.save('NIvsCG_model2.h5') 
