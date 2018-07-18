@@ -68,7 +68,7 @@ model.add(Dropout(0.5))
 model.add(Dense(2, activation='softmax'))
 
 # optimizer
-adam = optimizers.Adam(lr=1e-5)
+adam = optimizers.Adam(lr=1e-8)
 
 # loss function is binary crossentropy (for binary classification)
 model.compile(loss='sparse_categorical_crossentropy',
@@ -95,19 +95,19 @@ validation_generator = test_datagen.flow_from_directory(
 
 # callbacks
 tensorboard = LRTensorBoard(log_dir="logs/{}".format(time()))
-reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=0)
+# reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=5, min_lr=0)
 checkpoint = ModelCheckpoint("checkpoints/model.{epoch:02d}-{val_loss:.2f}.h5", monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=3)
 
 # load trained model, remove this line if training from scratch
-model = load_model('model.12-2.07.h5')
+model = load_model('model.21-2.09.h5')
 
 # start training
 model.fit_generator(
         train_generator,
-        steps_per_epoch=2000,
-        epochs=238,
+        steps_per_epoch=None,
+        epochs=20,
         validation_data=validation_generator,
-        validation_steps=800,
-        callbacks=[tensorboard, reduce_lr, checkpoint])
+        validation_steps=None,
+        callbacks=[tensorboard, checkpoint])
 
-model.save('NIvsCG_model2.h5') 
+model.save('NIvsCG_model_Trial2.h5') 
