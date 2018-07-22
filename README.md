@@ -22,5 +22,5 @@ The code for the majority voting algorithm is in `voting.py`. A trained `.h5` mo
 [Abdulmajeed Aljaloud](https://github.com/Rinzu)
 
 ## References
-- W. Quan, K. Wang, D. M. Yan and X. Zhang. 2018. [Distinguishing Between Natural and Computer-Generated Images Using Convolutional Neural Networks](https://github.com/weizequan/NIvsCG). in IEEE Transactions on Information Forensics and Security, vol. 13, no. 11, pp. 2772-2787.
+- W. Quan, K. Wang, D. M. Yan and X. Zhang. 2018. [Distinguishing Between Natural and Computer-Generated Images Using Convolutional Neural Networks](https://github.com/weizequan/NIvsCG). In IEEE Transactions on Information Forensics and Security, vol. 13, no. 11, pp. 2772-2787.
 - W. Quan, D. M. Yan, J. Guo, W. Meng, and X. Zhang. 2016. [Maximal Poisson-disk Sampling via Sampling Radius Optimization](https://github.com/weizequan/NIvsCG/tree/master/utils). In SIGGRAPH ASIA 2016 Posters (SA '16). ACM, New York, NY, USA, Article 22, 2 pages.
