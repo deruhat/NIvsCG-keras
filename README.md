@@ -16,4 +16,5 @@ The code for the majority voting algorithm is in `voting.py`. A trained `.h5` mo
 
 ## Contributers:
 Abdulellah Abualshour | https://github.com/deruhat
+
 Abdulmajeed Aljaloud | https://github.com/Rinzu
