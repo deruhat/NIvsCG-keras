@@ -13,3 +13,7 @@ The code for the CNN design described by the paper can be found in `nivscg.py`. 
 
 ### Majority Voting:
 The code for the majority voting algorithm is in `voting.py`. A trained `.h5` model from `nivscg.py` is needed in order to run the majority voting algorithm and get the test accuracy.
+
+## Contributers:
+Abdulellah Abualshour | https://github.com/deruhat
+Abdulmajeed Aljaloud | https://github.com/Rinzu
