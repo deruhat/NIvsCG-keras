@@ -1,0 +1,14 @@
+# exclude everything in directory datasets except readme
+datasets/*
+!datasets/README.md
+checkpoints/*
+!checkpoints/README.md
+models/*
+!models/README.md
+logs/*
+!logs/README.md
+reference
+utils/*
+!utils/README.md
+!utils/imageNamesFileMaker.py
+!utils/makePatches.m
