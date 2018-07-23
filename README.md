@@ -10,6 +10,10 @@
 ### Preparing the Workspace
 Make sure you have the project structured as follows:
 ```
+├── src
+   ├── model.py
+   ├── voting.py
+   ├── patchesTestAcc.py
 ├── datasets
    ├── full
        ├── personal
