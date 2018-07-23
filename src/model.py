@@ -17,6 +17,7 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras import optimizers, regularizers
 from time import time
 from keras.callbacks import TensorBoard, ReduceLROnPlateau, ModelCheckpoint
+from keras.utils import multi_gpu_model
 
 import os
 
@@ -68,13 +69,16 @@ model.add(Dense(2, activation='softmax'))
 # optimizer
 adam = optimizers.Adam(lr=1e-5)
 
+# multi-gpu
+model = multi_gpu_model(model, gpus=4)
+
 # loss function is binary crossentropy (for binary classification)
 model.compile(loss='sparse_categorical_crossentropy',
               optimizer=adam,
               metrics=['accuracy'])
 
 # make the data generators for image data
-batch_size = 32
+batch_size = 128
 
 train_datagen = ImageDataGenerator()
 test_datagen = ImageDataGenerator()
@@ -92,7 +96,7 @@ validation_generator = test_datagen.flow_from_directory(
         class_mode='binary')
 
 # load trained model
-model = load_model('../models/NIvsCG_model_20epochs_None-NoneStep.h5')
+# model = load_model('../models/NIvsCG_model_20epochs_None-NoneStep.h5')
 
 # make callbacks to use while training
 tensorboard = LRTensorBoard(log_dir="../logs/{}".format(time()))
