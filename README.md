@@ -18,42 +18,36 @@ Make sure you have the project structured as follows:
    ├── full
        ├── personal
            ├── 000001.jpg 
-           ├── 000002.jpg
            └── ...
        └── prcg
            ├── 000001.jpg 
-           ├── 000002.jpg
            └── ...
    └── patches
        ├── train
            ├── personal
-              ├── patch-001.jpg 
-              ├── patch-002.jpg
+              ├── patch-001.bmp 
               └── ...
            └── prcg
-              ├── patch-001.jpg 
-              ├── patch-002.jpg
+              ├── patch-001.bmp 
               └── ...
        ├── valid
            ├── personal
-              ├── patch-001.jpg 
-              ├── patch-002.jpg
+              ├── patch-001.bmp 
               └── ...
            └── prcg
-              ├── patch-001.jpg 
-              ├── patch-002.jpg
+              ├── patch-001.bmp 
               └── ...
        ├── test
            ├── personal
-              ├── patch-001.jpg 
-              ├── patch-002.jpg
+              ├── patch-001.bmp 
               └── ...
            └── prcg
-              ├── patch-001.jpg 
-              ├── patch-002.jpg
+              ├── patch-001.bmp 
               └── ...
        └── test-majority-voting
            ├── all
+              ├── patch-001.bmp 
+              └── ...
            └── filenames.txt
 ├── checkpoints
 ├── logs
@@ -62,9 +56,8 @@ Make sure you have the project structured as follows:
 └── utils
    ├── mps
    ├── imageMpsCrop.m
-   ├── prepareData.m
-   ├── subdir.m
-   └── test_names_gen.py
+   ├── makePatches.m
+   └── imageNamesFileMaker.py
 ```
 - Google and PRCG datasets can be downloaded [here](https://drive.google.com/file/d/0BwHrTmiHZpQCRFFVMWFEaWsyaWM/view).
 - Personal dataset can be downloaded [here](http://www.ee.columbia.edu/~dvmmweb/dvmm/downloads/PIM_PRCG_dataset/personal_columbia_downsized_jpeg.zip).
