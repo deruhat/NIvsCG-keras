@@ -7,8 +7,61 @@
 - [Original project written in Caffe.](https://github.com/weizequan/NIvsCG)
 
 ----------------------------------------
-### Splitting the Data
-
+### Preparing the Workspace
+Make sure you have the project structured as follows:
+```
+├── datasets
+   ├── full
+       ├── personal
+           ├── 000001.jpg 
+           ├── 000002.jpg
+           └── ...
+       └── prcg
+           ├── 000001.jpg 
+           ├── 000002.jpg
+           └── ...
+   └── patches
+       ├── train
+           ├── personal
+              ├── patch-001.jpg 
+              ├── patch-002.jpg
+              └── ...
+           └── prcg
+              ├── patch-001.jpg 
+              ├── patch-002.jpg
+              └── ...
+       ├── valid
+           ├── personal
+              ├── patch-001.jpg 
+              ├── patch-002.jpg
+              └── ...
+           └── prcg
+              ├── patch-001.jpg 
+              ├── patch-002.jpg
+              └── ...
+       ├── test
+           ├── personal
+              ├── patch-001.jpg 
+              ├── patch-002.jpg
+              └── ...
+           └── prcg
+              ├── patch-001.jpg 
+              ├── patch-002.jpg
+              └── ...
+       └── test-majority-voting
+           ├── files
+           └── filenames.txt
+├── checkpoints
+├── logs
+├── models
+├── results
+└── utils
+   ├── mps
+   ├── imageMpsCrop.m
+   ├── prepareData.m
+   ├── subdir.m
+   └── test_names_gen.py
+```
 
 ### Training the Model
 The code for the CNN design described by the paper can be found in `nivscg.py`. Image patches used as training and validation data have to be cropped using the MPS algorithm implemented [here](https://github.com/weizequan/NIvsCG/tree/master/utils).
