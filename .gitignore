@@ -8,6 +8,8 @@ models/*
 logs/*
 !logs/README.md
 reference
+results/*
+!results/README.md
 utils/*
 !utils/README.md
 !utils/imageNamesFileMaker.py

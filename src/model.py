@@ -33,7 +33,7 @@ class LRTensorBoard(TensorBoard):
 model = Sequential()
 
 # convLayer
-model.add(Conv2D(32, (7, 7), input_shape=(233, 233, 3), kernel_regularizer=regularizers.l1(0.015)))
+model.add(Conv2D(32, (7, 7), input_shape=(233, 233, 3), kernel_regularizer=regularizers.l1(0.01)))
 
 # C1
 model.add(Conv2D(64, (7, 7)))
@@ -80,24 +80,24 @@ train_datagen = ImageDataGenerator()
 test_datagen = ImageDataGenerator()
 
 train_generator = train_datagen.flow_from_directory(
-        '../../datasets/patches/train', 
+        '../datasets/patches/train', 
         target_size=(233, 233),  # input size as in paper
         batch_size=batch_size,
         class_mode='binary')
 
 validation_generator = test_datagen.flow_from_directory(
-        '../../datasets/patches/valid',
+        '../datasets/patches/valid',
         target_size=(233, 233),
         batch_size=batch_size,
         class_mode='binary')
 
 # load trained model
-model = load_model('../../models/NIvsCG_model_20epochs_None-NoneStep.h5')
+model = load_model('../models/NIvsCG_model_20epochs_None-NoneStep.h5')
 
 # make callbacks to use while training
-tensorboard = LRTensorBoard(log_dir="../../logs/{}".format(time()))
+tensorboard = LRTensorBoard(log_dir="../logs/{}".format(time()))
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=0)
-checkpoint = ModelCheckpoint("../../checkpoints/model_2/model.{epoch:02d}-{val_loss:.2f}.h5", monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=4)
+checkpoint = ModelCheckpoint("../checkpoints/model_2/model.{epoch:02d}-{val_loss:.2f}.h5", monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=4)
 
 # start training
 model.fit_generator(
@@ -109,4 +109,4 @@ model.fit_generator(
         callbacks=[tensorboard, reduce_lr, checkpoint])
 
 # save the model if ever finish
-model.save('../../models/NIvsCG_model_100epochs_None-NoneStep.h5') 
+model.save('../models/NIvsCG_model_100epochs_None-NoneStep.h5') 

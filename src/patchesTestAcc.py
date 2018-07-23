@@ -5,7 +5,7 @@ from keras import backend as K
 from keras.preprocessing.image import *
 from keras.models import Sequential, load_model
 
-model = load_model('../../models/NIvsCG_model_100epochs_None-NoneStep.h5')
+model = load_model('../models/NIvsCG_model_100epochs_None-NoneStep.h5')
 batch_size = 32
 test_datagen = ImageDataGenerator()
 test_generator = test_datagen.flow_from_directory(
