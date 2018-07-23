@@ -17,8 +17,6 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras import optimizers, regularizers
 from time import time
 from keras.callbacks import TensorBoard, ReduceLROnPlateau, ModelCheckpoint
-from keras.applications.resnet50 import preprocess_input
-from keras.utils import multi_gpu_model
 
 import os
 
@@ -31,13 +29,11 @@ class LRTensorBoard(TensorBoard):
         logs.update({'lr': K.eval(self.model.optimizer.lr)})
         super().on_epoch_end(epoch, logs)
 
-datagen = ImageDataGenerator(featurewise_center=True)
-
-# begin building the model
+# building the model
 model = Sequential()
 
 # convLayer
-model.add(Conv2D(32, (7, 7), input_shape=(233, 233, 3), kernel_regularizer=regularizers.l1(0.01)))
+model.add(Conv2D(32, (7, 7), input_shape=(233, 233, 3), kernel_regularizer=regularizers.l1(0.015)))
 
 # C1
 model.add(Conv2D(64, (7, 7)))
@@ -70,40 +66,38 @@ model.add(Dropout(0.5))
 model.add(Dense(2, activation='softmax'))
 
 # optimizer
-adam = optimizers.Adam(lr=1e-8)
-
-model = multi_gpu_model(model, gpus=4)
+adam = optimizers.Adam(lr=1e-5)
 
 # loss function is binary crossentropy (for binary classification)
 model.compile(loss='sparse_categorical_crossentropy',
               optimizer=adam,
               metrics=['accuracy'])
 
-# prepare for training
-batch_size = 128
+# make the data generators for image data
+batch_size = 32
 
 train_datagen = ImageDataGenerator()
 test_datagen = ImageDataGenerator()
 
 train_generator = train_datagen.flow_from_directory(
-        'utils/output-data/train', 
-        target_size=(233, 233),  # patch size 
+        '../../datasets/patches/train', 
+        target_size=(233, 233),  # input size as in paper
         batch_size=batch_size,
-        class_mode='binary')  # binary_crossentropy loss
+        class_mode='binary')
 
 validation_generator = test_datagen.flow_from_directory(
-        'utils/output-data/valid',
+        '../../datasets/patches/valid',
         target_size=(233, 233),
         batch_size=batch_size,
         class_mode='binary')
 
-# callbacks
-tensorboard = LRTensorBoard(log_dir="logs/{}".format(time()))
-# reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=0)
-checkpoint = ModelCheckpoint("checkpoints/model.{epoch:02d}-{val_loss:.2f}.h5", monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=3)
+# load trained model
+model = load_model('../../models/NIvsCG_model_20epochs_None-NoneStep.h5')
 
-# load trained model, remove this line if training from scratch
-# model = load_model('NIvsCG_model_Trial2.h5')
+# make callbacks to use while training
+tensorboard = LRTensorBoard(log_dir="../../logs/{}".format(time()))
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=0)
+checkpoint = ModelCheckpoint("../../checkpoints/model_2/model.{epoch:02d}-{val_loss:.2f}.h5", monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=4)
 
 # start training
 model.fit_generator(
@@ -112,6 +106,7 @@ model.fit_generator(
         epochs=100,
         validation_data=validation_generator,
         validation_steps=None,
-        callbacks=[tensorboard, checkpoint])
+        callbacks=[tensorboard, reduce_lr, checkpoint])
 
-model.save('NIvsCG_model_Trial2_final.h5') 
+# save the model if ever finish
+model.save('../../models/NIvsCG_model_100epochs_None-NoneStep.h5') 
