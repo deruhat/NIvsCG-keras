@@ -14,6 +14,15 @@ Make sure you have the project structured as follows:
    ├── model.py
    ├── voting.py
    ├── patchesTestAcc.py
+├── checkpoints
+├── logs
+├── models
+├── results
+└── utils
+   ├── mps
+   ├── imageMpsCrop.m
+   ├── makePatches.m
+   └── imageNamesFileMaker.py
 ├── datasets
    ├── full
        ├── personal
@@ -49,15 +58,6 @@ Make sure you have the project structured as follows:
               ├── patch-001.bmp 
               └── ...
            └── filenames.txt
-├── checkpoints
-├── logs
-├── models
-├── results
-└── utils
-   ├── mps
-   ├── imageMpsCrop.m
-   ├── makePatches.m
-   └── imageNamesFileMaker.py
 ```
 - Google and PRCG datasets can be downloaded [here](https://drive.google.com/file/d/0BwHrTmiHZpQCRFFVMWFEaWsyaWM/view).
 - Personal dataset can be downloaded [here](http://www.ee.columbia.edu/~dvmmweb/dvmm/downloads/PIM_PRCG_dataset/personal_columbia_downsized_jpeg.zip).
@@ -66,6 +66,9 @@ The code for the CNN design described by the paper can be found in `model.py`. I
 
 ### Majority Voting
 The code for the majority voting algorithm is in `voting.py`. A trained `.h5` model from `model.py` is needed in order to run the majority voting algorithm and get the test accuracy.
+
+### Results
+So far we're able to achieve 95% accuracy on image classification. We take 200 random patches from each test image using the MPS algorithm, and take the majority vote of these 200 patches to decide that test image's class.
 
 ## Contributers
 [Abdulellah Abualshour](https://github.com/deruhat)
