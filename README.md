@@ -10,20 +10,20 @@
 ### Preparing the Workspace
 Make sure you have the project structured as follows:
 ```
-├── src
-   ├── model.py
-   ├── voting.py
-   ├── patchesTestAcc.py
 ├── checkpoints
 ├── logs
 ├── models
 ├── results
-└── utils
+├── src
+   ├── model.py
+   ├── voting.py
+   ├── patchesTestAcc.py
+├── utils
    ├── mps
    ├── imageMpsCrop.m
    ├── makePatches.m
    └── imageNamesFileMaker.py
-├── datasets
+└── datasets
    ├── full
        ├── personal
            ├── 000001.jpg 
