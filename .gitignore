@@ -7,10 +7,10 @@ models/*
 !models/README.md
 logs/*
 !logs/README.md
-reference
 results/*
 !results/README.md
 utils/*
 !utils/README.md
 !utils/imageNamesFileMaker.py
 !utils/makePatches.m
+reference
