@@ -1,1 +1,2 @@
-.
+- Google and PRCG datasets can be downloaded [here](https://drive.google.com/file/d/0BwHrTmiHZpQCRFFVMWFEaWsyaWM/view).
+- Personal dataset can be downloaded [here](http://www.ee.columbia.edu/~dvmmweb/dvmm/downloads/PIM_PRCG_dataset/personal_columbia_downsized_jpeg.zip).
