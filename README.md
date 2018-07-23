@@ -53,7 +53,7 @@ Make sure you have the project structured as follows:
               ├── patch-002.jpg
               └── ...
        └── test-majority-voting
-           ├── files
+           ├── all
            └── filenames.txt
 ├── checkpoints
 ├── logs
