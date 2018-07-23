@@ -11,7 +11,7 @@ kCropNum = 200;  % the number of cropped patches for each image
 mps_data = load('mps/maxmps_200.pts');
 rng('shuffle');  % used for randi
 
-mainDir =  "C:\Users\jalouam\Desktop\ML\NIvsCG\datasets\"
+mainDir =  "..\datasets\"
 subDirs = ["personal"; "PRCG"]
 
 test_freq = 4;  %how often to use an image as a validation image. every 5th
