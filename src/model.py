@@ -101,6 +101,7 @@ validation_generator = test_datagen.flow_from_directory(
 # make callbacks to use while training
 tensorboard = LRTensorBoard(log_dir="../logs/{}".format(time()))
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=0)
+# make sure the path to the directory inside 'checkpoints' exists to avoid failure while saving:
 checkpoint = ModelCheckpoint("../checkpoints/model_2/model.{epoch:02d}-{val_loss:.2f}.h5", monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=4)
 
 # start training
