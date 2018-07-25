@@ -14,8 +14,8 @@ rng('shuffle');  % used for randi
 mainDir =  "..\datasets\"
 subDirs = ["personal"; "PRCG"]
 
-test_freq = 4;  %how often to use an image as a validation image. every 5th
-valid_freq = 5; %6th image
+test_freq = 4;  %how often to use an image as a validation image. every 4th
+valid_freq = 5; %5th image
 
 for i = 1:2
     files = dir(strcat(mainDir, 'full\', subDirs{i})) %get all the image files in the directory 
