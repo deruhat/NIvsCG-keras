@@ -68,7 +68,7 @@ The code for the CNN design described by the paper can be found in `model.py`. I
 The code for the majority voting algorithm is in `voting.py`. A trained `.h5` model from `model.py` is needed in order to run the majority voting algorithm and get the test accuracy.
 
 ### Results
-So far we're able to achieve 95% accuracy on image classification. We take 200 random patches from each test image using the MPS algorithm, and take the majority vote of these 200 patches to decide that test image's class.
+So far we're able to achieve 95% accuracy on image classification. We take 200 patches that cover the whole image from each test sample using the MPS algorithm, and take the majority vote of these 200 patches to decide that test image's class.
 
 ## Contributers
 [Abdulellah Abualshour](https://github.com/deruhat)
