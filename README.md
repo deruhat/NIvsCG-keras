@@ -59,7 +59,7 @@ Make sure you have the project structured as follows:
            └── filenames.txt
 ```
 ### Dataset
-We used the Personal and PRCG datasets for our two classes.
+We used the Personal and PRCG datasets for our two classes. MPS algorithm has to be used beforehand in order to produce the patches cropped and prepare them for training and majority voting.
 - Google and PRCG datasets can be downloaded [here](https://drive.google.com/file/d/0BwHrTmiHZpQCRFFVMWFEaWsyaWM/view).
 - Personal dataset can be downloaded [here](http://www.ee.columbia.edu/~dvmmweb/dvmm/downloads/PIM_PRCG_dataset/personal_columbia_downsized_jpeg.zip).
 
