@@ -72,7 +72,7 @@ The code for the majority voting algorithm is in `voting.py`. A trained `.h5` mo
 ### Results
 So far we're able to achieve ~~95%~~ ~~96.88%~~ 97.18% accuracy on image classification. We take 200 patches that cover the whole image from each test sample using the MPS algorithm, and take the majority vote of these 200 patches to decide that test image's class.
 
-You can download the trained model [here](https://drive.google.com/file/d/1YLQ7duhInAyHfUrbGUJttlmduB0D0nve/view?usp=sharing).
+You can download the trained model [here](https://drive.google.com/file/d/12GAuhDEg-US2jWxhOB5eTksBo2kxJ0Qx/view?usp=sharing).
 
 ## Contributers
 [Abdulellah Abualshour](https://github.com/deruhat)
