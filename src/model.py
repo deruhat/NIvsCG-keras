@@ -21,6 +21,9 @@ from keras.utils import multi_gpu_model
 
 import os
 
+# visible device
+os.environ["CUDA_VISIBLE_DEVICES"]="3"
+
 # subclassing TensorBoard to show LR
 class LRTensorBoard(TensorBoard):
     def __init__(self, log_dir):  
@@ -31,51 +34,54 @@ class LRTensorBoard(TensorBoard):
         super().on_epoch_end(epoch, logs)
 
 # building the model
-# model = Sequential()
+model = Sequential()
 
-# # convLayer
-# model.add(Conv2D(32, (7, 7), input_shape=(233, 233, 3), kernel_regularizer=regularizers.l1(0.015)))
+# convLayer
+model.add(Conv2D(32, (7, 7), input_shape=(233, 233, 3), kernel_regularizer=regularizers.l1(0.015)))
 
-# # C1
-# model.add(Conv2D(64, (7, 7)))
-# model.add(BatchNormalization(scale=True))
-# model.add(Activation('relu'))
-# model.add(MaxPooling2D(pool_size=(3, 3), strides=2))
+# C1
+model.add(Conv2D(64, (7, 7)))
+model.add(BatchNormalization(scale=True))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(3, 3), strides=2))
 
-# # C2
-# model.add(Conv2D(48, (5, 5)))
-# model.add(BatchNormalization(scale=True))
-# model.add(Activation('relu'))
-# model.add(MaxPooling2D(pool_size=(3, 3), strides=2))
+# C2
+model.add(Conv2D(48, (5, 5)))
+model.add(BatchNormalization(scale=True))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(3, 3), strides=2))
 
-# # C3
-# model.add(Conv2D(64, (3, 3)))
-# model.add(BatchNormalization(scale=True))
-# model.add(Activation('relu'))
-# model.add(MaxPooling2D(pool_size=(3, 3), strides=2))
+# C3
+model.add(Conv2D(64, (3, 3)))
+model.add(BatchNormalization(scale=True))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(3, 3), strides=2))
 
-# # FC4 (Dense)
-# model.add(Flatten())
-# model.add(Dense(4096, activation='relu'))
-# model.add(Dropout(0.5))
+# FC4 (Dense)
+model.add(Flatten())
+model.add(Dense(4096, activation='relu'))
+model.add(Dropout(0.5))
 
-# # FC5
-# model.add(Dense(4096, activation='relu'))
-# model.add(Dropout(0.5))
+# FC5
+model.add(Dense(4096, activation='relu'))
+model.add(Dropout(0.5))
 
-# # Output
-# model.add(Dense(2, activation='softmax'))
+# Output
+model.add(Dense(2, activation='softmax'))
 
-# # optimizer
-# adam = optimizers.Adam(lr=1e-5)
 
-# # multi-gpu
+# optimizer
+adam = optimizers.Adam(lr=1e-6)
+sgd = optimizers.SGD(lr=1e-5, momentum=0.9, nesterov=True)
+
+# multi-gpu
 # model = multi_gpu_model(model, gpus=4)
 
-# # loss function is binary crossentropy (for binary classification)
-# model.compile(loss='sparse_categorical_crossentropy',
-#               optimizer=adam,
-#               metrics=['accuracy'])
+# loss function is binary crossentropy (for binary classification)
+model.compile(loss='sparse_categorical_crossentropy',
+              optimizer=sgd,
+              metrics=['accuracy'])
+>>>>>>> 8dd39b500184c4459491191d8d9b0aef79e70c86
 
 # make the data generators for image data
 batch_size = 32
@@ -96,6 +102,7 @@ validation_generator = test_datagen.flow_from_directory(
         class_mode='binary')
 
 # load trained model
+<<<<<<< HEAD
 model = load_model('../models/NIvsCG_model_100epochs_None-NoneStep.h5')
 
 # make callbacks to use while training
@@ -103,6 +110,14 @@ tensorboard = LRTensorBoard(log_dir="../logs/{}".format(time()))
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=0)
 # make sure the path to the directory inside 'checkpoints' exists to avoid failure while saving:
 checkpoint = ModelCheckpoint("../checkpoints/model_3/model.{epoch:02d}-{val_loss:.2f}.h5", monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=5)
+=======
+model = load_model('../models/NIvsCG_sgd_lr-1e-5_val_loss-0.30_116_epochs.h5')
+
+# make callbacks to use while training
+tensorboard = LRTensorBoard(log_dir="../logs/{}".format(time()))
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=10, min_lr=0)
+checkpoint = ModelCheckpoint("../checkpoints/NIvsCG_sgd_lr-1e-5_WITH_REDUCE-LR.{epoch:02d}-{val_loss:.2f}.h5", monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=1)
+>>>>>>> 8dd39b500184c4459491191d8d9b0aef79e70c86
 
 # start training
 model.fit_generator(
@@ -114,4 +129,8 @@ model.fit_generator(
         callbacks=[tensorboard, reduce_lr, checkpoint])
 
 # save the model if ever finish
+<<<<<<< HEAD
 model.save('../models/NIvsCG_model_200epochs_None-NoneStep.h5') 
+=======
+model.save('../models/NIvsCG_model_sgd_lr_1e-6_120epochs.h5') 
+>>>>>>> 8dd39b500184c4459491191d8d9b0aef79e70c86

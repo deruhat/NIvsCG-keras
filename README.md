@@ -3,7 +3,6 @@
  
 ----------------------------------------
 
-- This an on-going project to implement the paper in Keras.
 - [Original project written in Caffe.](https://github.com/weizequan/NIvsCG)
 
 ----------------------------------------
@@ -59,8 +58,11 @@ Make sure you have the project structured as follows:
               └── ...
            └── filenames.txt
 ```
+### Dataset
+We used the Personal and PRCG datasets for our two classes. MPS algorithm has to be used beforehand in order to produce the patches cropped and prepare them for training and majority voting.
 - Google and PRCG datasets can be downloaded [here](https://drive.google.com/file/d/0BwHrTmiHZpQCRFFVMWFEaWsyaWM/view).
 - Personal dataset can be downloaded [here](http://www.ee.columbia.edu/~dvmmweb/dvmm/downloads/PIM_PRCG_dataset/personal_columbia_downsized_jpeg.zip).
+
 ### Training the Model
 The code for the CNN design described by the paper can be found in `model.py`. Image patches used as training and validation data have to be cropped using the MPS algorithm implemented [here](https://github.com/weizequan/NIvsCG/tree/master/utils).
 
@@ -68,7 +70,9 @@ The code for the CNN design described by the paper can be found in `model.py`. I
 The code for the majority voting algorithm is in `voting.py`. A trained `.h5` model from `model.py` is needed in order to run the majority voting algorithm and get the test accuracy.
 
 ### Results
-So far we're able to achieve 95% accuracy on image classification. We take 200 random patches from each test image using the MPS algorithm, and take the majority vote of these 200 patches to decide that test image's class.
+So far we're able to achieve ~~95%~~ ~~96.88%~~ 97.18% accuracy on image classification. We take 200 patches that cover the whole image from each test sample using the MPS algorithm, and take the majority vote of these 200 patches to decide that test image's class.
+
+You can download the trained model [here](https://drive.google.com/file/d/12GAuhDEg-US2jWxhOB5eTksBo2kxJ0Qx/view?usp=sharing).
 
 ## Contributers
 [Abdulellah Abualshour](https://github.com/deruhat)
