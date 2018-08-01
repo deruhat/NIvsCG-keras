@@ -81,7 +81,6 @@ sgd = optimizers.SGD(lr=1e-5, momentum=0.9, nesterov=True)
 model.compile(loss='sparse_categorical_crossentropy',
               optimizer=sgd,
               metrics=['accuracy'])
->>>>>>> 8dd39b500184c4459491191d8d9b0aef79e70c86
 
 # make the data generators for image data
 batch_size = 32
@@ -102,7 +101,6 @@ validation_generator = test_datagen.flow_from_directory(
         class_mode='binary')
 
 # load trained model
-<<<<<<< HEAD
 model = load_model('../models/NIvsCG_model_100epochs_None-NoneStep.h5')
 
 # make callbacks to use while training
@@ -110,14 +108,12 @@ tensorboard = LRTensorBoard(log_dir="../logs/{}".format(time()))
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=0)
 # make sure the path to the directory inside 'checkpoints' exists to avoid failure while saving:
 checkpoint = ModelCheckpoint("../checkpoints/model_3/model.{epoch:02d}-{val_loss:.2f}.h5", monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=5)
-=======
 model = load_model('../models/NIvsCG_sgd_lr-1e-5_val_loss-0.30_116_epochs.h5')
 
 # make callbacks to use while training
 tensorboard = LRTensorBoard(log_dir="../logs/{}".format(time()))
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=10, min_lr=0)
 checkpoint = ModelCheckpoint("../checkpoints/NIvsCG_sgd_lr-1e-5_WITH_REDUCE-LR.{epoch:02d}-{val_loss:.2f}.h5", monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=1)
->>>>>>> 8dd39b500184c4459491191d8d9b0aef79e70c86
 
 # start training
 model.fit_generator(
@@ -129,8 +125,4 @@ model.fit_generator(
         callbacks=[tensorboard, reduce_lr, checkpoint])
 
 # save the model if ever finish
-<<<<<<< HEAD
-model.save('../models/NIvsCG_model_200epochs_None-NoneStep.h5') 
-=======
-model.save('../models/NIvsCG_model_sgd_lr_1e-6_120epochs.h5') 
->>>>>>> 8dd39b500184c4459491191d8d9b0aef79e70c86
+model.save('../models/NIvsCG_model_150epochs_None-NoneStep.h5') 
