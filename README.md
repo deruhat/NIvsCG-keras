@@ -59,7 +59,9 @@ Make sure you have the project structured as follows:
            └── filenames.txt
 ```
 ### Dataset
-We used the Personal and PRCG datasets for our two classes. MPS algorithm has to be used beforehand in order to produce the patches cropped and prepare them for training and majority voting.
+We used the Personal and PRCG datasets for our two classes. 
+Images of each class were split into 3:1:1 ratio (train:valid:test). And it was taken into account each image's category. For example, PRCG images fall into multiple categories (Archticture, nature, object, etc..) We split the images so each dataset (train, valid, test) has images from every category. Then made 200 crops of each image using the MPS algorithm to get the patches. All of this is done using the `makePatches.m` script.
+
 - Google and PRCG datasets can be downloaded [here](https://drive.google.com/file/d/0BwHrTmiHZpQCRFFVMWFEaWsyaWM/view).
 - Personal dataset can be downloaded [here](http://www.ee.columbia.edu/~dvmmweb/dvmm/downloads/PIM_PRCG_dataset/personal_columbia_downsized_jpeg.zip).
 
